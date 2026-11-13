@@ -1,0 +1,20 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch({ channel: 'chrome' });
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const page = await ctx.newPage();
+  await page.goto('file:///Users/pallav/Desktop/whack-a-mole/index.html');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload(); await page.waitForTimeout(1800);
+  await page.screenshot({ path: 'screenshot-menu.png' });
+  await page.click('[data-mode="classic"]');
+  await page.waitForTimeout(2800);
+  await page.screenshot({ path: 'screenshot-gameplay.png' });
+  await page.keyboard.press('m'); await page.waitForTimeout(400);
+  await page.click('[data-mode="vr"]');
+  await page.waitForTimeout(900);
+  await page.screenshot({ path: 'screenshot-vr.png' });
+  await page.keyboard.press('m'); await page.waitForTimeout(300);
+  await browser.close();
+  console.log('done');
+})();

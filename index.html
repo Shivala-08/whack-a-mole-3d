@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>Whack-a-Mole 3D — Mobile VR + AI Edition</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%AD%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app"></div>
+  <div id="vignette"></div>
+
+  <!-- ===== HUD ===== -->
+  <div id="hud" class="hidden">
+    <div class="cell"><span class="label">Score</span><span class="value" id="scoreVal">0</span></div>
+    <div class="cell"><span class="label">Time</span><span class="value" id="timeVal">30</span></div>
+    <div class="cell"><span class="label">Best</span><span class="value" id="bestVal">0</span></div>
+  </div>
+
+  <!-- ===== Gaze reticle ===== -->
+  <div id="reticle" class="hidden"><svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="34"/><circle id="reticleFill" class="ring-fill" cx="50" cy="50" r="34"/><circle class="dot" cx="50" cy="50" r="5"/></svg></div>
+
+  <!-- ===== Mode label (shown during bots / VR) ===== -->
+  <div id="modeChip" class="hidden"></div>
+
+  <!-- ===== Main menu ===== -->
+  <div id="menu" class="panel show">
+    <div class="card card--wide">
+      <h1>Whack-a-Mole 3D</h1>
+      <div class="subtitle">Mobile VR + AI Edition · Three.js · Cardboard VR · Hand-written ML</div>
+      <div class="modeGrid" id="modeGrid">
+        <button class="modeBtn" data-mode="classic"><b>🔨 Classic</b><span>Mouse, touch or keys</span></button>
+        <button class="modeBtn" data-mode="vr"><b>🥽 Cardboard VR</b><span>Stereo + head tracking</span></button>
+        <button class="modeBtn" data-mode="qlearn"><b>🧠 AI: Q-Learning</b><span>Train a tabular agent</span></button>
+        <button class="modeBtn" data-mode="ppo"><b>📈 AI: PPO</b><span>Policy gradient + settings</span></button>
+        <button class="modeBtn" data-mode="imitate"><b>👀 AI: Imitate You</b><span>Behaviour cloning</span></button>
+        <button class="modeBtn" data-mode="about"><b>🌍 About VR</b><span>History &amp; applications</span></button>
+      </div>
+      <div class="rowBtns">
+        <button class="btn btn--ghost" data-open="settings">⚙ Materials &amp; Lights</button>
+        <button class="btn btn--ghost" data-open="editor">🧰 Editor View</button>
+        <button class="btn btn--ghost" data-open="credits">ℹ Credits</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Game over ===== -->
+  <div id="gameover" class="panel">
+    <div class="card">
+      <h2 id="overTitle">Time&rsquo;s up!</h2>
+      <div class="scores">
+        <div id="overSub" class="sub">Final score</div>
+        <div><span class="score-num" id="finalScore">0</span></div>
+        <div class="sub">High score: <b id="finalBest">0</b><span class="new hidden" id="newBest">🎉 New best!</span></div>
+      </div>
+      <div class="rowBtns">
+        <button class="btn" id="againBtn" type="button">↻ Play again</button>
+        <button class="btn btn--ghost" id="overMenuBtn" type="button">☰ Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Settings: materials, lights, cameras ===== -->
+  <div id="settings" class="panel">
+    <div class="drawer">
+      <div class="drawerHead"><h3>Materials &amp; Lights</h3><button class="x" data-close="settings">✕</button></div>
+      <div class="drawerBody">
+        <section>
+          <h4>Materials </h4>
+          <div class="ctlRow" data-mat="ground"><label>Ground</label><div class="chips" data-chips="ground"></div></div>
+          <div class="ctlRow" data-mat="mole"><label>Mole skin</label><div class="chips" data-chips="mole"></div></div>
+          <div class="ctlRow" data-mat="hammer"><label>Hammer</label><div class="chips" data-chips="hammer"></div></div>
+        </section>
+        <section>
+          <h4>Lights </h4>
+          <div class="ctlRow"><label>Ambient</label><input type="checkbox" id="lightAmbient" checked><input type="range" id="ambientInt" min="0" max="2" step="0.05" value="0.55"></div>
+          <div class="ctlRow"><label>Directional</label><input type="checkbox" id="lightDir" checked><input type="range" id="dirInt" min="0" max="3" step="0.05" value="0.9"></div>
+          <div class="ctlRow"><label>Point (warm)</label><input type="checkbox" id="lightPoint"><input type="range" id="pointInt" min="0" max="4" step="0.05" value="1.5"></div>
+          <div class="ctlRow"><label>Spot</label><input type="checkbox" id="lightSpot"><input type="range" id="spotInt" min="0" max="4" step="0.05" value="2"></div>
+          <div class="rowBtns"><button class="btn btn--sm" id="presetDay">☀ Day</button><button class="btn btn--sm btn--ghost" id="presetNight">🌙 Night</button></div>
+        </section>
+        <section>
+          <h4>Asset Store </h4>
+          <p class="note" id="assetNote">Drop <code>assets/mole.glb</code> to use a Blender model. Without it the built-in primitive mole is used.</p>
+          <div class="rowBtns">
+            <button class="btn btn--sm btn--ghost" id="reloadAssets">↻ Reload assets</button>
+            <button class="btn btn--sm btn--ghost" id="wireBtn">📐 Wireframe</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Editor View ===== -->
+  <div id="editor" class="panel">
+    <div class="editorWrap">
+      <div class="hierPane">
+        <div class="drawerHead"><h3>Hierarchy </h3><button class="x" data-close="editor">✕</button></div>
+        <div id="hierarchy" class="hierList"></div>
+      </div>
+      <div class="inspPane">
+        <h3>Inspector</h3>
+        <div id="inspector" class="inspBody"><p class="note">Select an object in the hierarchy.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Code Lens ===== -->
+  <div id="codelens" class="hidden">
+    <div class="clHead">Code Lens <button class="x x--sm" id="clClose">✕</button></div>
+    <div class="clBody">
+      <div class="clVars" id="clVars"></div>
+      <div class="clMethod" id="clMethod">—</div>
+    </div>
+  </div>
+
+  <!-- ===== AI training panel (shared by Q / PPO / imitation) ===== -->
+  <div id="aiPanel" class="panel">
+    <div class="card card--wide">
+      <h2 id="aiTitle">AI Learns</h2>
+      <p class="aiIntro" id="aiIntro"></p>
+
+      <div id="aiQBody" class="aiSection hidden">
+        <div class="aiGrid">
+          <div class="aiLeft">
+            <h4>Q-table heat map </h4>
+            <div class="heatWrap"><div class="heatGrid" id="heatGrid"></div><div class="heatEmpty" id="heatEmpty">Most holes for this state are unseen</div></div>
+            <div class="statRow">
+              <div><span>Episodes</span><b id="qEpisodes">0</b></div>
+              <div><span>Epsilon</span><b id="qEpsilon">1.00</b></div>
+              <div><span>Avg reward</span><b id="qReward">0.00</b></div>
+            </div>
+          </div>
+          <div class="aiRight">
+            <h4>Reward per episode</h4>
+            <canvas id="qChart" width="360" height="180"></canvas>
+            <h4>Agent play</h4>
+            <div class="statRow">
+              <div><span>Bot score</span><b id="qBotScore">0</b></div>
+              <div><span>Minutes</span><b id="qBotTime">0.0</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aiPpoBody" class="aiSection hidden">
+        <div class="aiGrid">
+          <div class="aiLeft">
+            <h4>Policy output</h4>
+            <div class="heatWrap"><div class="heatGrid heatGrid--policy" id="policyGrid"></div></div>
+            <div class="statRow">
+              <div><span>Iterations</span><b id="ppoIters">0</b></div>
+              <div><span>Avg reward</span><b id="ppoReward">0.00</b></div>
+              <div><span>Entropy</span><b id="ppoEntropy">0.00</b></div>
+            </div>
+          </div>
+          <div class="aiRight">
+            <h4>Reward curve</h4>
+            <canvas id="ppoChart" width="360" height="180"></canvas>
+            <h4>Hyperparameters </h4>
+            <div class="hpGrid" id="hpGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aiImitBody" class="aiSection hidden">
+        <div class="aiGrid">
+          <div class="aiLeft">
+            <h4>Demonstration log </h4>
+            <div class="statRow">
+              <div><span>Samples</span><b id="imSamples">0</b></div>
+              <div><span>Your hits</span><b id="imYourScore">0</b></div>
+              <div><span>Bot score</span><b id="imBotScore">0</b></div>
+            </div>
+            <p class="note">Play a round with recording on. Each mole click is logged as (observation → action). Training fits a softmax classifier to copy you.</p>
+            <div class="heatWrap"><div class="heatLegend" id="imLegend"></div></div>
+          </div>
+          <div class="aiRight">
+            <h4>Accuracy vs your actions</h4>
+            <canvas id="imChart" width="360" height="180"></canvas>
+            <div class="statRow">
+              <div><span>Accuracy</span><b id="imAcc">—</b></div>
+              <div><span>Loss</span><b id="imLoss">—</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aiControls">
+        <button class="btn hidden" id="aiRecordBtn">⏺ Record me</button>
+        <button class="btn" id="aiTrainBtn">▶ Train</button>
+        <button class="btn btn--ghost" id="aiWatchBtn">👁 Watch bot</button>
+        <button class="btn btn--ghost" id="aiStopBtn">⏹ Stop</button>
+        <button class="btn btn--ghost" id="aiResetBtn">↺ Reset</button>
+        <label class="speedLabel">Speed <input type="range" id="aiSpeed" min="1" max="100" step="1" value="20"><b id="aiSpeedVal">20×</b></label>
+        <button class="btn btn--ghost" id="aiBackBtn">☰ Menu</button>
+      </div>
+      <p class="honesty" id="aiHonesty"></p>
+    </div>
+  </div>
+
+  <!-- ===== About VR ===== -->
+  <div id="aboutVr" class="panel">
+    <div class="card card--wide aboutCard">
+      <div class="drawerHead"><h2>About VR </h2><button class="x" data-close="aboutVr">✕</button></div>
+      <ol class="timeline" id="timeline"></ol>
+      <h4>Applications today</h4>
+      <div class="appGrid" id="appGrid"></div>
+      <div class="rowBtns"><button class="btn" data-close="aboutVr">☰ Back to menu</button></div>
+    </div>
+  </div>
+
+  <!-- ===== Credits ===== -->
+  <div id="credits" class="panel">
+    <div class="card">
+      <div class="drawerHead"><h2>Credits &amp; What I Learned </h2><button class="x" data-close="credits">✕</button></div>
+      <div class="creditsBody" id="creditsBody"></div>
+      <div class="rowBtns"><button class="btn" data-close="credits">☰ Back to menu</button></div>
+    </div>
+  </div>
+
+  <!-- ===== Pause ===== -->
+  <div id="pause" class="panel">
+    <div class="card">
+      <h2>Paused</h2>
+      <p class="sub">Press <kbd>P</kbd> to resume.</p>
+      <div class="rowBtns">
+        <button class="btn" id="resumeBtn">▶ Resume</button>
+        <button class="btn btn--ghost" id="pauseMenuBtn">☰ Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/GLTFLoader.min.js"
+          onerror="window.__gltfLoaderFailed=true"></script>
+  <script src="js/env.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/agents.js"></script>
+  <script src="js/panels.js"></script>
+  <script src="assets/trained.js" onerror="window.__trainedMissing=true"></script>
+  <script src="js/boot.js"></script>
+</body>
+</html>
