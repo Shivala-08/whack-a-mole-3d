@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Test scripts and generator sources are noise for crawlers
+Disallow: /test.cjs
+Disallow: /shots.cjs
+Disallow: /trainall.cjs
+
+Sitemap: https://whack-a-mole-eight-iota.vercel.app/sitemap.xml

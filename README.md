@@ -1,13 +1,18 @@
 # Whack-a-Mole 3D — Mobile VR + AI Edition
 
+[![Live demo](https://img.shields.io/badge/live%20demo-play%20now-ffb300?style=flat-square)](https://whack-a-mole-eight-iota.vercel.app) [![Built with Three.js](https://img.shields.io/badge/three.js-r128-black?style=flat-square)](https://threejs.org) [![No build step](https://img.shields.io/badge/build-none%20required-4ade80?style=flat-square)](index.html) [![Tests](https://img.shields.io/badge/tests-38%20passing-4ade80?style=flat-square)](test.cjs)
+
+**▶ Play it now: https://whack-a-mole-eight-iota.vercel.app**
+
 A 30-second browser arcade game built with **HTML + JavaScript + Three.js**, extended into a six-mode showcase for mobile VR and hand-written machine learning: a Cardboard-style stereo mode, a tabular Q-learning agent, a compact PPO agent with a value critic, and an imitation-learning bot that copies your play. No ML framework — every agent is plain JavaScript.
 
+> **Keywords:** 3D whack-a-mole browser game · Three.js game · WebGL arcade game · Cardboard VR / mobile VR game in JavaScript · tabular Q-learning demo · PPO reinforcement learning from scratch · behaviour cloning / imitation learning · no build step, plays in any modern browser.
 
 ![gameplay](screenshot-gameplay.png)
 
 ## Run it
 
-Double-click `index.html` — there is no build step and no install.
+Play the hosted build at **https://whack-a-mole-eight-iota.vercel.app**, or double-click `index.html` locally — there is no build step and no install.
 
 - Three.js r128 and GLTFLoader load from the cdnjs CDN, so the first load needs an internet connection.
 - **Optional Blender model:** drop a `mole.glb` into `assets/` and it is loaded automatically (scale-normalised). Without it the game falls back to the built-in primitive mole — no error, by design.

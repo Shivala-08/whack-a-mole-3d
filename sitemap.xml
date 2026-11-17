@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://whack-a-mole-eight-iota.vercel.app/</loc>
+    <lastmod>2025-11-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://whack-a-mole-eight-iota.vercel.app/og-image.png</image:loc>
+      <image:title>Whack-a-Mole 3D gameplay</image:title>
+      <image:caption>A 3D whack-a-mole arcade game running in the browser, with score and timer HUD.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://whack-a-mole-eight-iota.vercel.app/screenshot-vr.png</image:loc>
+      <image:title>Cardboard VR stereo mode</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://whack-a-mole-eight-iota.vercel.app/screenshot-ai-q.png</image:loc>
+      <image:title>Q-learning agent training panel</image:title>
+    </image:image>
+  </url>
+</urlset>

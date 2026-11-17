@@ -3,11 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <title>Whack-a-Mole 3D — Mobile VR + AI Edition</title>
+  <title>Whack-a-Mole 3D — Browser Game with Cardboard VR &amp; AI Bots</title>
+  <meta name="description" content="Free 3D whack-a-mole arcade game in your browser: classic hammer mode, Cardboard VR gaze mode, and live Q-learning, PPO and imitation-learning AI bots. Built with Three.js, no build step." />
+  <meta name="keywords" content="whack a mole 3d, browser game, three.js game, playground, cardboard vr game, mobile vr, webgl game, q-learning demo, ppo reinforcement learning, imitation learning, javascript game" />
+  <meta name="author" content="Shivala-08" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="canonical" href="https://whack-a-mole-eight-iota.vercel.app/" />
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Whack-a-Mole 3D" />
+  <meta property="og:url" content="https://whack-a-mole-eight-iota.vercel.app/" />
+  <meta property="og:title" content="Whack-a-Mole 3D — Browser Game with Cardboard VR &amp; AI Bots" />
+  <meta property="og:description" content="Play a 3D whack-a-mole arcade game in the browser, or watch Q-learning, PPO and imitation-learning bots train live. Cardboard VR gaze mode included." />
+  <meta property="og:image" content="https://whack-a-mole-eight-iota.vercel.app/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Whack-a-Mole 3D gameplay: a mole popping out of a diorama hole field with score and timer HUD" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Whack-a-Mole 3D — Browser Game with Cardboard VR &amp; AI Bots" />
+  <meta name="twitter:description" content="Play a 3D whack-a-mole arcade game in the browser, or watch Q-learning, PPO and imitation-learning bots train live." />
+  <meta name="twitter:image" content="https://whack-a-mole-eight-iota.vercel.app/og-image.png" />
+  <meta name="twitter:image:alt" content="Whack-a-Mole 3D gameplay screenshot" />
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%AD%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="og-image.png" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Whack-a-Mole 3D — Mobile VR + AI Edition",
+    "alternateName": "Whack-a-Mole 3D",
+    "url": "https://whack-a-mole-eight-iota.vercel.app/",
+    "description": "A free 3D whack-a-mole arcade game for the browser with a Cardboard-style stereo VR mode and three hand-written reinforcement-learning agents (tabular Q-learning, PPO and behaviour cloning) that train live in the page.",
+    "image": "https://whack-a-mole-eight-iota.vercel.app/og-image.png",
+    "screenshot": "https://whack-a-mole-eight-iota.vercel.app/screenshot-gameplay.png",
+    "genre": ["Arcade", "Casual", "Educational", "Simulation"],
+    "gamePlatform": ["Web browser", "Mobile browser", "Cardboard VR"],
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Any WebGL-capable browser",
+    "browserRequirements": "Requires JavaScript and WebGL",
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "keywords": "whack a mole, three.js game, cardboard vr, webgl, q-learning, ppo, imitation learning",
+    "author": { "@type": "Person", "name": "Shivala-08", "url": "https://github.com/Shivala-08" },
+    "codeRepository": "https://github.com/Shivala-08/whack-a-mole-3d",
+    "license": "https://github.com/Shivala-08/whack-a-mole-3d"
+  }
+  </script>
 </head>
 <body>
+  <noscript>
+    <main class="panel show">
+      <div class="card">
+        <h1>Whack-a-Mole 3D — Mobile VR + AI Edition</h1>
+        <p>This is a free 3D whack-a-mole arcade game for the browser, built with Three.js. It needs JavaScript and WebGL to run.</p>
+        <p>The full game has six modes: a classic 30-second hammer game, a Cardboard-style stereo VR mode with gaze-to-whack, a tabular Q-learning agent, a PPO policy-gradient agent, an imitation-learning bot that copies your play, and an About VR timeline.</p>
+        <p>Enable JavaScript to play, or see the source at
+          <a href="https://github.com/Shivala-08/whack-a-mole-3d">github.com/Shivala-08/whack-a-mole-3d</a>.</p>
+      </div>
+    </main>
+  </noscript>
+
   <div id="app"></div>
   <div id="vignette"></div>
 
@@ -28,7 +96,7 @@
   <div id="menu" class="panel show">
     <div class="card card--wide">
       <h1>Whack-a-Mole 3D</h1>
-      <div class="subtitle">Mobile VR + AI Edition · Three.js · Cardboard VR · Hand-written ML</div>
+      <p class="subtitle">Mobile VR + AI Edition · Three.js · Cardboard VR · Hand-written ML</p>
       <div class="modeGrid" id="modeGrid">
         <button class="modeBtn" data-mode="classic"><b>🔨 Classic</b><span>Mouse, touch or keys</span></button>
         <button class="modeBtn" data-mode="vr"><b>🥽 Cardboard VR</b><span>Stereo + head tracking</span></button>
@@ -64,7 +132,7 @@
   <!-- ===== Settings: materials, lights, cameras ===== -->
   <div id="settings" class="panel">
     <div class="drawer">
-      <div class="drawerHead"><h3>Materials &amp; Lights</h3><button class="x" data-close="settings">✕</button></div>
+      <div class="drawerHead"><h3>Materials &amp; Lights</h3><button class="x" data-close="settings" aria-label="Close materials and lights">✕</button></div>
       <div class="drawerBody">
         <section>
           <h4>Materials </h4>
@@ -96,7 +164,7 @@
   <div id="editor" class="panel">
     <div class="editorWrap">
       <div class="hierPane">
-        <div class="drawerHead"><h3>Hierarchy </h3><button class="x" data-close="editor">✕</button></div>
+        <div class="drawerHead"><h3>Hierarchy </h3><button class="x" data-close="editor" aria-label="Close editor view">✕</button></div>
         <div id="hierarchy" class="hierList"></div>
       </div>
       <div class="inspPane">
@@ -108,7 +176,7 @@
 
   <!-- ===== Code Lens ===== -->
   <div id="codelens" class="hidden">
-    <div class="clHead">Code Lens <button class="x x--sm" id="clClose">✕</button></div>
+    <div class="clHead">Code Lens <button class="x x--sm" id="clClose" aria-label="Close code lens">✕</button></div>
     <div class="clBody">
       <div class="clVars" id="clVars"></div>
       <div class="clMethod" id="clMethod">—</div>
@@ -203,7 +271,7 @@
   <!-- ===== About VR ===== -->
   <div id="aboutVr" class="panel">
     <div class="card card--wide aboutCard">
-      <div class="drawerHead"><h2>About VR </h2><button class="x" data-close="aboutVr">✕</button></div>
+      <div class="drawerHead"><h2>About VR </h2><button class="x" data-close="aboutVr" aria-label="Close about VR">✕</button></div>
       <ol class="timeline" id="timeline"></ol>
       <h4>Applications today</h4>
       <div class="appGrid" id="appGrid"></div>
@@ -214,7 +282,7 @@
   <!-- ===== Credits ===== -->
   <div id="credits" class="panel">
     <div class="card">
-      <div class="drawerHead"><h2>Credits &amp; What I Learned </h2><button class="x" data-close="credits">✕</button></div>
+      <div class="drawerHead"><h2>Credits &amp; What I Learned </h2><button class="x" data-close="credits" aria-label="Close credits">✕</button></div>
       <div class="creditsBody" id="creditsBody"></div>
       <div class="rowBtns"><button class="btn" data-close="credits">☰ Back to menu</button></div>
     </div>
